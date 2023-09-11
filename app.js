@@ -5,11 +5,12 @@ const logger = require("morgan");
 
 const app = express();
 
+const v1 = "/api/v1/cms";
+
 // router
 const categoriesRouter = require("./app/api/v1/categories/router");
 
-const v1 = "/api/v1/cms";
-
+// middleware
 const notFoundMiddleware = require("./app/middlewares/not-found");
 const handleErrorMiddleware = require("./app/middlewares/handle-error");
 
