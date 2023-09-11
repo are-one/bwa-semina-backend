@@ -1,11 +1,18 @@
-const Categories = require("./model");
+const { StatusCodes } = require("http-status-codes");
+const {
+  getAllCategories,
+  createCategories,
+  getOneCategories,
+  updateCategories,
+  deleteCategories,
+} = require("../../../services/mongoose/categories");
 
 const index = async (req, res, next) => {
   try {
-    const data = await Categories.find({}).select("_id name");
+    const result = await getAllCategories();
 
-    res.status(200).json({
-      data,
+    res.status(StatusCodes.OK).json({
+      data: result,
     });
   } catch (error) {
     next(error);
@@ -14,15 +21,9 @@ const index = async (req, res, next) => {
 
 const find = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const result = await getOneCategories(req);
 
-    const result = await Categories.findOne({ _id: id });
-
-    if (!result) {
-      res.status(404).json({ message: "Id categories tidak ditemukan" });
-    }
-
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       data: result,
     });
   } catch (error) {
@@ -32,12 +33,10 @@ const find = async (req, res, next) => {
 
 const create = async (req, res, next) => {
   try {
-    const { name } = req.body;
+    const result = await createCategories(req);
 
-    const data = await Categories.create({ name });
-
-    res.status(201).json({
-      data,
+    res.status(StatusCodes.CREATED).json({
+      data: result,
     });
   } catch (error) {
     next(error);
@@ -46,16 +45,9 @@ const create = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const { name } = req.body;
+    const result = await updateCategories(req);
 
-    const result = await Categories.findByIdAndUpdate(
-      { _id: id },
-      { name },
-      { runValidators: true, new: true }
-    );
-
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       data: result,
     });
   } catch (error) {
@@ -65,10 +57,9 @@ const update = async (req, res, next) => {
 
 const remove = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const result = await Categories.findByIdAndRemove(id);
+    const result = await deleteCategories(req);
 
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       data: result,
     });
   } catch (error) {
