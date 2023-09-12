@@ -1,4 +1,5 @@
 const Images = require("../../api/v1/images/model");
+const { NotFoundError } = require("../../errors");
 
 // Cara 1. Simpan url kedalam database
 const createImage = async (req) => {
@@ -18,4 +19,12 @@ const generateUrlImages = async (req) => {
   return result;
 };
 
-module.exports = { createImage, generateUrlImages };
+const checkingImages = async (id) => {
+  const result = await Images.findOne({ _id: id });
+
+  if (!result) throw new NotFoundError(`Tidak ada gambar dengan Id : ${id}`);
+
+  return result;
+};
+
+module.exports = { createImage, generateUrlImages, checkingImages };
