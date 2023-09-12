@@ -48,7 +48,7 @@ const update = async (req, res, next) => {
   try {
     const result = await updateTalents(req);
 
-    res.status(StatusCodes.OKE).json({
+    res.status(StatusCodes.OK).json({
       data: result,
     });
   } catch (error) {

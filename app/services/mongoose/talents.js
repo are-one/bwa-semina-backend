@@ -53,7 +53,7 @@ const getOneTalents = async (req) => {
 
 const updateTalents = async (req) => {
   const { id } = req.params;
-  const { name, image, role } = req.params;
+  const { name, role, image } = req.body;
 
   await checkingImages(image);
 
