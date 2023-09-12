@@ -1,0 +1,59 @@
+Hal-Hal yang dipelajari dalam course:
+
+# Membuat Project Backend API dari Awal Menggunakan Express =======================================
+
+* Meng-generate project dengan menggunakan express-generator
+
+    + install express-generator => npm i -g express-generator
+
+    + kemudian memanggil perintah
+        - tanpa menggunakan view engine seperti pug, hbs, ejs, dll (biasanya untuk membuat API)
+            => express --no-view nama-folder-project
+        - Dengan menggunakan view engine seperti pug, hbs, ejs, dll
+            => express --ejs 
+
+    + Menghasilkan struktur project (folder)
+    - [bin]
+    - [public]
+    - [routes] (akan dihapus karena akan dibuat struktur project baru [penjelasan ada di poin berikutnya])
+    - app.js
+    - package.json
+
+
+# Struktur Project Backend API Node Express =======================================================
+- [app]
+    - Module (Model, Controller atau Handler, router)
+    - Service (Mongoose, email, redis, etc)
+    - Middleware
+    - db (untuk konfigurasi database dalam hal ini mongodb)
+    - errors (Untuk membuat custom error)
+    - Utils
+- [bin]
+- [public]
+- app.js
+- package.json
+
+# Penggunaan Library dotenv ======================================================================
+Agar env variabel yang di definisikan di file .env dapat digunakan di file project
+dengan melakukan configurasi di file [app/config.js]
+
+contoh penggunaan hasil configurasi library dotenv ada di file [app/db/index.js]
+
+# Mengatur koneksi database Mongodb dengan Mongoose ==============================================
+- configurasi di file [app/db/index.js]
+- penggunaan file configurasi di file [bin/www]
+
+
+# Handling Error ================================================================================
+- Menggunakan library http-status-codes untuk mendapat kan daftar status code tanpa perlu membuat dari awal
+- Membuat base class custom error (file custom-api-error.js)
+- Membuat file class custom error (BadRequest, NotFound, dll)
+- Mendaftarkan semua custom error kedalam file [app/errors/index.js] agar mudah di kelola
+- Membuat middleware untuk error handling yang akan digunakan file app.js server
+- Terakhir mengimplementasikan penggunaan jenis-jenis custom error di services (misalnya [app/services/mongodb/categories.js], dll)
+
+
+# Penggunaan Library multer untuk menangani proses upload file seperti (validasi, dll)
+- library digunkan sebagai middleware dengan membuatkan file [app/middleware/multer.js] (seperti pada contoh project saat ini)
+- Kemudian middleware multer di terapkan ke router module images [app/api/v1/images/router.js]
+ 
