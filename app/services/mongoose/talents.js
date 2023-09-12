@@ -57,20 +57,23 @@ const updateTalents = async (req) => {
 
   await checkingImages(image);
 
-  const check = await Talents.findOne({
+  const checkTalent = await Talents.findById(id);
+
+  if (!checkTalent)
+    throw new NotFoundError(`Tidak ada pembicara dengan Id : ${id}`);
+
+  const checkTalentName = await Talents.findOne({
     name,
     _id: { $ne: id },
   });
 
-  if (check) throw new BadRequestError("Pembicara sudah terdaftar");
+  if (checkTalentName) throw new BadRequestError("Pembicara sudah terdaftar");
 
   const result = await Talents.findByIdAndUpdate(
     { _id: id },
     { name, image, role },
     { new: true, runValidators: true }
   );
-
-  if (!result) throw new NotFoundError(`Tidak ada pembicara dengan Id : ${id}`);
 
   return result;
 };
