@@ -1,5 +1,6 @@
 Hal-Hal yang dipelajari dalam course:
 
+# Penggunaan nvm untuk mengubah versi node.js dengan mudah
 # Membuat Project Backend API dari Awal Menggunakan Express =======================================
 
 * Meng-generate project dengan menggunakan express-generator
@@ -56,4 +57,26 @@ contoh penggunaan hasil configurasi library dotenv ada di file [app/db/index.js]
 # Penggunaan Library multer untuk menangani proses upload file seperti (validasi, dll)
 - library digunkan sebagai middleware dengan membuatkan file [app/middleware/multer.js] (seperti pada contoh project saat ini)
 - Kemudian middleware multer di terapkan ke router module images [app/api/v1/images/router.js]
+
+
+# Kondisi Query MongoDb dan relasi ke  ===========================================================================
+1. const check = await Categories.findOne({
+    name,
+    _id: { $ne: id },
+  });
+
+  kode diatas adalah kode query ke database
+  untuk mencari data yang tidak sama (not equal) dengan id tertentu
+  - $ne => not equal
+
+2. const result = await Talents.find({name: { $regex: keywords, $options: "i" }})
+    .populate({
+      path: "image",
+      select: "_id name",
+    })
+    .select("_id name image role"); 
+
+ kode di atas adalah kode query ke database untuk mencari data berdasarkan keywords
+ dengan menggunakan regex dengan option i (case insensitivity)
+ [https://www.mongodb.com/docs/manual/reference/operator/query/regex/]
  
